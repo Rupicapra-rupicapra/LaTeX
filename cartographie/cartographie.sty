@@ -1,0 +1,22 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{cartographie}[2014/06, ajout d'un environnement flottant "carte"]
+
+\RequirePackage{float}
+
+%%%%%%%%%%%
+% Options %
+%%%%%%%%%%%
+
+\DeclareOption{ruled}{\floatstyle{ruled}}
+\DeclareOption{box}{\floatstyle{boxed}}
+
+\ProcessOptions
+
+\newcommand{\cartename}{Carte}
+\newcommand{\listcartename}{Liste des cartes}
+
+\newfloat{carte}{htbpH}{loca}[section]
+\floatname{carte}{\cartename}
+\newcommand{\listofcartes}{\listof{carte}{\listcartesname}}
+
+\endinput
