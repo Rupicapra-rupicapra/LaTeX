@@ -1,0 +1,92 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{offsign-fr}[2014/05/19, package pour l'insertion de signatures officielles selon les règles typographiques françaises]
+
+\newcounter{ordreSignature}
+
+\newlength{\sigboxsize} \setlength{\sigboxsize}{6cm}
+\newlength{\beforesize}
+
+\newcommand{\largeursig}[1]{\setlength{\sigboxsize}{#1}}
+
+% Insertion de signature brute.
+% Usage : \sigX{Nom du signataire}
+\newcommand{\sigl}[1]{%
+	\begin{flushleft}
+		\begin{minipage}{6cm}
+			\begin{center}
+				#1.
+			\end{center}
+		\end{minipage}
+	\end{flushleft}
+}
+\newcommand{\sigr}[1]{%
+	\begin{flushright}
+		\begin{minipage}{6cm}
+			\begin{center}
+				#1.
+			\end{center}
+		\end{minipage}
+	\end{flushright}
+}
+
+% Insertion de signatures avec fonction, sous la forme \sigXd{fonctions du signataire}{Nom du signataire}
+% Ces commandes forcent le placement des signatures
+\newcommand{\sigld}[2]{%
+	\begin{flushleft}
+		 \begin{minipage}{\sigboxsize}
+			\begin{center}
+				\textit{#1},\\
+				#2.
+			\end{center}
+		\end{minipage}
+	\end{flushleft}
+}
+\newcommand{\sigrd}[2]{%
+	\begin{flushright}
+		\begin{minipage}{\sigboxsize}
+			\begin{center}
+				\textit{#1},
+				\\#2.
+			\end{center}
+		\end{minipage} 
+	\end{flushright}
+}
+
+% Définit le signataire principal d'un document
+% Force le placement de la signature
+\newcommand{\mainsig}[2]{%
+	\stepcounter{ordreSignature}
+	\begin{flushright}
+		\begin{minipage}{\sigboxsize}
+			\begin{center}
+				\textsc{#1}.
+			\end{center}
+		\end{minipage}
+	\end{flushright}%
+	\begin{center}
+		#2:
+	\end{center}
+}
+
+% Signature automatisée
+% Usage : \sigd{Fonctions du signataire}{Nom du signataire}
+% Le placement de la signature est automatique
+\newcommand{\sigd}[2]{%
+	\stepcounter{ordreSignature}
+	\ifodd\theordreSignature \begin{flushright} \else \begin{flushleft} \fi
+		\begin{minipage}{\sigboxsize}
+			\begin{center}
+				\textit{#1},
+				\\#2.
+			\end{center}
+		\end{minipage}
+	\ifodd\theordreSignature \end{flushright} \else \end{flushleft} \fi
+}
+
+% Permet de modifier localement la lageur de la boîte de signature
+\newcommand{\largeurLocale}[2]{%
+	\setlength{\beforesize}{\sigboxsize}
+	\setlength{\sigboxsize}{#1}
+	#2
+	\setlength{\sigboxsize}{\beforesize}
+}
